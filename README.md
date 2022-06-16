@@ -1,32 +1,28 @@
 <p align="center">
 
-# Simple Shell project 0x16.c - Sodash -
+# Simple Shell project
 
 This is a simple UNIX command interpreter based on bash and Sh.
 
-## Overview
-
-**Sodashy** is a sh-compatible command language interpreter that executes commands read from the standard input or from a file.
-
 ### Invocation
 
-Usage: **Sodash** 
-Sodash is started with the standard input connected to the terminal. To start, compile all .c located in this repository by using this command: 
+Usage:
+The program is started with the standard input connected to the terminal. To start, compile all .c located in this repository by using this command: 
 ```
 gcc -Wall -Werror -Wextra -pedantic *.c -o sodash
 ./sodash
 ```
 
-**Sodash** is allowed to be invoked interactively and non-interactively. If **sodash** is invoked with standard input not connected to a terminal, it reads and executes received commands in order.
+The program is allowed to be invoked interactively and non-interactively. If program is invoked with standard input not connected to a terminal, it reads and executes received commands in order.
 
 Example:
 ```
-$ echo "echo 'ALX'" | ./sodash
+$ echo "echo 'ALX'" | ./program
 'ALX'
 $
 ```
 
-When **sodash** is invoked with standard input connected to a terminal (determined by isatty(3), the interactive mode is opened. **sodash** Will be using the following prompt `^-^ `.
+When **program** is invoked with standard input connected to a terminal (determined by isatty(3), the interactive mode is opened. **program** Will be using the following prompt `^-^ `.
 
 Example:
 ```
@@ -34,7 +30,7 @@ $./sodash
 ^-^
 ```
 
-If a command line argument is invoked, **sodash** will take that first argument as a file from which to read commands.
+If a command line argument is invoked, **program** will take that first argument as a file from which to read commands.
 
 Example:
 ```
@@ -47,13 +43,13 @@ $
 
 ### Environment
 
-Upon invocation, **sodash** receives and copies the environment of the parent process in which it was executed. This environment is an array of *name-value* strings describing variables in the format *NAME=VALUE*. A few key environmental variables are:
+Upon invocation, **program** receives and copies the environment of the parent process in which it was executed. This environment is an array of *name-value* strings describing variables in the format *NAME=VALUE*. A few key environmental variables are:
 
 #### HOME
 The home directory of the current user and the default directory argument for the **cd** builtin command.
 
 ```
-$ echo "echo $HOME" | ./sodash
+$ echo "echo $HOME" | ./program
 /home/vagrant
 ```
 
@@ -61,7 +57,7 @@ $ echo "echo $HOME" | ./sodash
 The current working directory as set by the **cd** command.
 
 ```
-$ echo "echo $PWD" | ./sodash
+$ echo "echo $PWD" | ./program
 /home/vagrant/ALX/simple_shell
 ```
 
@@ -69,7 +65,7 @@ $ echo "echo $PWD" | ./sodash
 The previous working directory as set by the **cd** command.
 
 ```
-$ echo "echo $OLDPWD" | ./sodash
+$ echo "echo $OLDPWD" | ./program
 /home/vagrant/ALX/bog-062019-test_suite
 ```
 
@@ -77,30 +73,30 @@ $ echo "echo $OLDPWD" | ./sodash
 A colon-separated list of directories in which the shell looks for commands. A null directory name in the path (represented by any of two adjacent colons, an initial colon, or a trailing colon) indicates the current directory.
 
 ```
-$ echo "echo $PATH" | ./sodash
+$ echo "echo $PATH" | ./program
 /home/vagrant/.cargo/bin:/home/vagrant/.local/bin:/home/vagrant/.rbenv/plugins/ruby-build/bin:/home/vagrant/.rbenv/shims:/home/vagrant/.rbenv/bin:/home/vagrant/.nvm/versions/node/v10.15.3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/vagrant/.cargo/bin:/home/vagrant/workflow:/home/vagrant/.local/bin
 ```
 
 ### Command Execution
 
-After receiving a command, **sodash** tokenizes it into words using `" "` as a delimiter. The first word is considered the command and all remaining words are considered arguments to that command. **sodash** then proceeds with the following actions:
+After receiving a command, **program** tokenizes it into words using `" "` as a delimiter. The first word is considered the command and all remaining words are considered arguments to that command. **program** then proceeds with the following actions:
 1. If the first character of the command is neither a slash (`\`) nor dot (`.`), the shell searches for it in the list of shell builtins. If there exists a builtin by that name, the builtin is invoked.
-2. If the first character of the command is none of a slash (`\`), dot (`.`), nor builtin, **sodash** searches each element of the **PATH** environmental variable for a directory containing an executable file by that name.
+2. If the first character of the command is none of a slash (`\`), dot (`.`), nor builtin, **program** searches each element of the **PATH** environmental variable for a directory containing an executable file by that name.
 3. If the first character of the command is a slash (`\`) or dot (`.`) or either of the above searches was successful, the shell executes the named program with any remaining given arguments in a separate execution environment.
 
 ### Exit Status 
 
-**sodash** returns the exit status of the last command executed, with zero indicating success and non-zero indicating failure.
+**program** returns the exit status of the last command executed, with zero indicating success and non-zero indicating failure.
 If a command is not found, the return status is 127; if a command is found but is not executable, the return status is 126.
 All builtins return zero on success and one or two on incorrect usage (indicated by a corresponding error message).
 
 ### Signals
 
-While running in interactive mode, **sodash** ignores the keyboard input ctrl+c. Alternatively, an input of End-Of-File ctrl+d will exit the program.
+While running in interactive mode, **program** ignores the keyboard input ctrl+c. Alternatively, an input of End-Of-File ctrl+d will exit the program.
 
 User hits ctrl+d in the foutrh command.
 ```
-$ ./sodash
+$ ./program
 ^-^ ^C
 ^-^ ^C
 ^-^ ^C
@@ -109,14 +105,14 @@ $ ./sodash
 
 ### Variable Replacement
 
-**sodash** interprets the `$` character for variable replacement.
+**program** interprets the `$` character for variable replacement.
 
 #### $ENV_VARIABLE
 `ENV_VARIABLE` is substituted with its value.
 
 Example:
 ```
-$ echo "echo $PWD" | ./sodash
+$ echo "echo $PWD" | ./program
 /home/vagrant/ALX/simple_shell
 ```
 
@@ -125,7 +121,7 @@ $ echo "echo $PWD" | ./sodash
 
 Example:
 ```
-$ echo "echo $?" | ./sodash
+$ echo "echo $?" | ./program
 0
 ```
 
@@ -134,30 +130,30 @@ The second `$` is substitued with the current process ID.
 
 Example:
 ```
-$ echo "echo $$" | ./sodash
+$ echo "echo $$" | ./program
 3855
 ```
 
 ### Comments
 
-**sodash** ignores all words and characters preceeded by a `#` character on a line.
+**program** ignores all words and characters preceeded by a `#` character on a line.
 
 Example:
 ```
-$ echo "echo 'ALX' #this will be ignored!" | ./sodash
+$ echo "echo 'ALX' #this will be ignored!" | ./program
 'ALX'
 ```
 
 ### Operators
 
-**sodash** specially interprets the following operator characters:
+**program** specially interprets the following operator characters:
 
 #### ; - Command separator
 Commands separated by a `;` are executed sequentially.
 
 Example:
 ```
-$ echo "echo 'hello' ; echo 'world'" | ./sodash
+$ echo "echo 'hello' ; echo 'world'" | ./program
 'hello'
 'world'
 ```
@@ -167,9 +163,9 @@ $ echo "echo 'hello' ; echo 'world'" | ./sodash
 
 Example:
 ```
-$ echo "error! && echo 'ALX'" | ./sodash
+$ echo "error! && echo 'ALX'" | ./program
 ./shellby: 1: error!: not found
-$ echo "echo 'my name is' && echo 'ALX'" | ./sodash
+$ echo "echo 'my name is' && echo 'ALX'" | ./program
 'my name is'
 'ALX'
 ```
@@ -198,7 +194,7 @@ The operators `&&` and `||` have equal precedence, followed by `;`.
 
 Example:
 ```
-$ ./sodash
+$ ./program
 ^-^ pwd
 /home/vagrant/ALX/simple_shell
 $ cd ../
@@ -217,7 +213,7 @@ $ cd ../
 
 Example:
 ```
-$ ./sodash
+$ ./program
 $ exit
 ```
 
@@ -227,7 +223,7 @@ $ exit
 
 Example:
 ```
-$ ./sodash
+$ ./program
 $ env
 NVM_DIR=/home/vagrant/.nvm
 ...
@@ -240,7 +236,7 @@ NVM_DIR=/home/vagrant/.nvm
 
 Example:
 ```
-$ ./sodash
+$ ./program
 $ setenv NAME ALX
 $ echo $NAME
 ALX
@@ -253,7 +249,7 @@ ALX
 
 Example:
 ```
-$ ./sodash
+$ ./program
 $ setenv NAME ALX
 $ unsetenv NAME
 $ echo $NAME
@@ -268,4 +264,4 @@ $
 
 ## More information
 
-**Sodash** is a simple shell unix command interpreter that is part of the ALX low level programming module at ALX Africa Program and is intended to emulate the basics **sh** shell. All the information given in this README is based on the **sodash** and **bash** man (1) pages.
+**program** is a simple shell unix command interpreter that is part of the ALX low level programming module at ALX Africa Program and is intended to emulate the basics **sh** shell. All the information given in this README is based on the **sodash** and **bash** man (1) pages.
